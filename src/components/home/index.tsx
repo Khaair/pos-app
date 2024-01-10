@@ -9,15 +9,39 @@ import {
 import { useReactToPrint } from "react-to-print";
 import AddCustomer from "../add-customer";
 import Invoice from "../invoice";
-const HomeContainer = ({ data }) => {
-  const [cart, setCart] = useState([]);
-  const [value, setValue] = useState(1);
-  const [getFilteredData, setFilteredData] = useState([]);
+
+interface Product {
+  id: string;
+  category: string;
+  title: string;
+  imgSrc: string;
+  price: number;
+}
+
+interface HomeContainerProps {
+  data: Product[];
+}
+
+interface CartItem {
+  id: string;
+  quantity: number;
+  price: number;
+  title: string;
+  imgSrc: string;
+}
+const HomeContainer: React.FC<HomeContainerProps> = ({ data }) => {
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [getFilteredData, setFilteredData] = useState<any>(data);
   const [showInvoiceContent, setShowInvoiceContent] = useState(false);
   const [getSelectedData, setSelectedData] = useState("");
-
-  const addToCart = (product: any) => {
-    const existingProduct = cart?.find((item) => item?.id === product?.id);
+  const addToCart = (product: {
+    id: string;
+    quantity: number;
+    price: number;
+    title: string;
+    imgSrc: string;
+  }) => {
+    const existingProduct = cart?.find((item: any) => item?.id === product?.id);
 
     if (existingProduct) {
       setCart((prevCart: any) =>
@@ -52,7 +76,7 @@ const HomeContainer = ({ data }) => {
     );
   };
 
-  const deleteItem = (productId) => {
+  const deleteItem = (productId: string) => {
     setCart((prevCart) => prevCart?.filter((item) => item?.id !== productId));
   };
 
@@ -67,7 +91,7 @@ const HomeContainer = ({ data }) => {
     if (value === "ALL") {
       setFilteredData(data);
     }
-    const filteredData = data?.filter((item, index) => {
+    const filteredData = data?.filter((item: any) => {
       return item?.category === value;
     });
 
@@ -101,13 +125,13 @@ const HomeContainer = ({ data }) => {
     content: () => componentRef?.current,
   } as any);
 
-  const FetchData = (e) => {
+  const FetchData = (e: any) => {
     setSelectedData(e);
   };
 
   const [searchValue, setSearchValue] = useState("");
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchValue(value);
   };
@@ -161,12 +185,12 @@ const HomeContainer = ({ data }) => {
                 <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-5 2xl:grid-cols-5">
                   {getFilteredData?.length > 0
                     ? getFilteredData
-                        ?.filter((el) =>
+                        ?.filter((el: any) =>
                           el.title
                             ?.toLowerCase()
                             ?.includes(searchValue?.toLowerCase())
                         )
-                        .map((el, ind) => {
+                        .map((el: any, ind: any) => {
                           if (
                             searchValue &&
                             el?.title &&
@@ -204,12 +228,12 @@ const HomeContainer = ({ data }) => {
                           );
                         })
                     : data
-                        ?.filter((el) =>
-                          el.title
+                        ?.filter((el: any) =>
+                          el?.title
                             ?.toLowerCase()
                             ?.includes(searchValue?.toLowerCase())
                         )
-                        .map((el, ind) => {
+                        .map((el: any, ind: any) => {
                           if (
                             searchValue &&
                             el?.title &&
@@ -277,9 +301,7 @@ const HomeContainer = ({ data }) => {
                             </button>
                             <InputNumber
                               className="mx-2"
-                              status
                               readOnly
-                              onChange={setValue}
                               min={1}
                               max={10}
                               value={item?.quantity}

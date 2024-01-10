@@ -1,6 +1,6 @@
 import moment from "moment";
 
-const Invoice = ({ getSelectedData, cart, calculateTotalPrice }) => {
+const Invoice = ({ getSelectedData, cart, calculateTotalPrice }: any) => {
   return (
     <div className="flex justify-center items-center mt-5">
       <div>
@@ -31,31 +31,38 @@ const Invoice = ({ getSelectedData, cart, calculateTotalPrice }) => {
         </div>
 
         <table id="customers">
-          <tr>
-            <th>SL</th>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-          </tr>
-
-          {cart?.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item?.title}</td>
-                <td>{item?.quantity}</td>
-                <td>${item?.price}</td>
-                <td>${item?.price * item?.quantity}</td>
-              </tr>
-            );
-          })}
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cart?.map((item: any, index: any) => {
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item?.title}</td>
+                  <td>{item?.quantity}</td>
+                  <td>${item?.price}</td>
+                  <td>${item?.price * item?.quantity}</td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
 
         <div className="text-end">
-          <h2 className="text-lg mr-4">Sub Total: ${calculateTotalPrice()}</h2>
+          <h2 className="text-lg mr-4">
+            Sub Total: ${calculateTotalPrice?.()}
+          </h2>
           ---------------------
-          <h2 className="text-lg mr-4">Cash Paid: ${calculateTotalPrice()}</h2>
+          <h2 className="text-lg mr-4">
+            Cash Paid: ${calculateTotalPrice?.()}
+          </h2>
         </div>
       </div>
     </div>

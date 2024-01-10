@@ -1,7 +1,7 @@
 import { Form, Input, Modal, Select } from "antd";
 import { useEffect, useState } from "react";
 
-const AddCustomer = ({ fetch }) => {
+const AddCustomer = ({ fetch }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [customerData, setCustomerData] = useState([]);
   const [getSelectedId, setSelectedId] = useState("");
@@ -16,7 +16,7 @@ const AddCustomer = ({ fetch }) => {
     const randomNumber = Math.floor(Math.random() * (1000 - 1) + 1);
     const timestamp = Date.now();
     const id = `${randomNumber}${timestamp}`;
-    setCustomerData([...customerData, { name, phone, address, id }]);
+    setCustomerData([...customerData, { name, phone, address, id }] as any);
     setIsModalOpen(false);
     form.resetFields();
   };
@@ -45,7 +45,7 @@ const AddCustomer = ({ fetch }) => {
     option?: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
-  const getCustomerData = customerData?.map((item) => {
+  const getCustomerData = customerData?.map((item: any) => {
     return {
       value: item?.id,
       label: item?.name,
